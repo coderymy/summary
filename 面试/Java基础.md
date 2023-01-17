@@ -118,7 +118,7 @@ linkedList,是双向链表
   + 遍历和随机访问速度慢
   + 插入、删除元素销量高
 
-![image-20210607174350453](C:\Users\coderymy\Desktop\学习之路\shenzhou_series\shenzhou_III（总结I和II）\img\image-20210607174350453.png)
+![image-20210607174350453](img/image-20210607174350453.png)
 
 ## Vector
 
@@ -587,3 +587,174 @@ public class DebugInvocationHandler implements InvocationHandler {
 为什么你使用 Spring 的时候 ，一个`@Component`注解就声明了一个类为 Spring Bean 呢？为什么你通过一个 `@Value`注解就读取到配置文件中的值呢？究竟是怎么起作用的呢？
 
 这些都是因为你可以基于反射分析类，然后获取到类/属性/方法/方法的参数上的注解。你获取到注解之后，就可以做进一步的处理。
+
+# 问题
+
+## String_`new String("ab")`会创建几个对象
+
+两个对象，可以通过字节码指令看出来
+
++ `new`的一个字符串对象，存放在堆空间中
++ 还有一个"ab"在常量池中的对象。
+
+
+
+> new String("a")+new String("b")？
+>
+> 
+>
+> 1. StringBuilder 涉及拼接，就需要StringBuilder
+> 2. new String("a")
+> 3. ldc将"a"放入常量池中
+> 4. new String("b")
+> 5. ldc将"b"放入常量池中
+> 6. 结果调用toString()方法：new String()。这里的toString()方法的调用，在字符串常量池中不会生成result
+>
+> **所以最终创建了六个对象。且不会在常量池中生成"ab"字符串对象**
+
+
+
+## String_intern()方法的使用
+
+```java
+public class StringInternTest{
+  	public static void main(String[] args){
+      	String s=new String("1");//创建了对象，s中保存的是对象在堆中的地址信息
+      	s.intern();//此时是将"1"放入字符串常量池中。但是已经有了，所以该操作相当于什么都没做，只是返回了字符串常量池中的地址信息。但是没有接收
+      	String s2="1";//返回字符串常量池"1"的地址信息
+      	System.out.println(s==s2);
+      
+      	String s3=new String("1")+new String("1");//创建了"1"的对象，并在常量池中生成了"1"（忽视上面）。创建了"11"的对象，将对象在堆中的地址赋值给了s3
+      	s3.intern();//将"11"放到字符串常量池中
+      	//JDK6，将"11"当到了永久代中的字符串常量池中
+      	//JDK7～，欲要将"11"放到堆的字符串常量池中，但是发现堆空间中有"11"的对象，所以字符串常量池中记录的就是堆空间这个对象的地址信息
+      	String s4="11";//获取字符串常量池中的"11"的地址信息
+      	System.out.println(s3==s4);//JDK6-false，JDK7-true
+    }
+}
+```
+
+JDK6：false、false
+
+s!=s2：s是通过new出来的，保存的是堆中的地址。s2是获取的"1"常量池中的地址
+
+s3!=s4：s3经过intern()之后会在字符串常量池中创建"11"
+
+JDK7/8及其之后（和6的区别就是字符串常量池从永久代到了堆中）：false 、true
+
+s!=s2：s是通过new出来的，保存的是堆中的地址。s2是获取的"1"常量池中的地址
+
+s3==s4：s3经过intern()之后发现堆中有这个对象，所以就直接在字符串常量池中记录的是堆中这个对象的地址信息
+
+![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/uPic/字符串常量池.drawio.png)
+
+## Comparable和Comparator的区别
+
+## Comparable是什么
+
+> 简介：实现该接口的类可以进行自比较
+
+自比较：自己对象本身和参数进行比较
+
+一个接口，实现了这个接口的类对象可以根据接口的方法compareTo进行比较来获取比较结果。同时这些对象可以被增加到Collaction集合中，使用`Collections.sort(xxx)`进行排序
+
+```java
+/**
+ * 实现一个业务逻辑
+ * 多张优惠券。
+ * 1，金额大的在前面
+ * 2，金额相同时，距离有效期最近的在前面
+ * 3，前两个结果相同时，id小的在前面
+ */
+public class ComparableDemo {
+    public static void main(String[] args) {
+        List<Coupon> coupons = new ArrayList<>();
+        //添加了一堆coupon。然后调用下面方法就可以对coupon进行排序。这个方法参数必须是实现了Comparable接口并按照业务实现了compareTo方法
+        Collections.sort(coupons);
+    }
+}
+
+@Data
+class Coupon implements Comparable<Coupon> {
+    private String id;
+    private Date endTime;
+    private int price;
+
+    @Override
+    public int compareTo(Coupon o) {
+        if (o.getPrice() > this.price) {
+            return 1;
+        } else if (o.getPrice() == this.price) {
+            if (this.endTime.compareTo(o.getEndTime()) == 0) {
+                return id.compareTo(o.getId());
+            } else {
+                return this.endTime.compareTo(o.getEndTime());
+            }
+        } else {
+            return -1;
+        }
+    }
+}
+```
+
+
+
+## Comparator是什么
+
+> 简介：可以辅助比较没有实现/想重写对方实现方法Comparable接口的对象进行比较
+
+作用场景一般是
+
++ 预比较的对象没有实现Comparable接口或者实现的compareTo逻辑不是自己想要的，而且无法使用继承来实现（final）
+
+比如我觉得String的自比较方式我不喜欢，那么就可以
+
+```java
+class Express implements Comparator<String> {
+    public static void main(String[] args) {
+        List<String> strings = new ArrayList<>();
+        //表示不使用String自带的compareTo方法而是使用Express对象中的比较方法
+        Collections.sort(strings, new Express());
+    }
+    @Override
+    public int compare(String o1, String o2) {
+        //xxxx各种逻辑实现
+        return 0;
+    }
+}
+```
+
+## 两者的区别
+
+Comparable侧重于**自比较**。也就是对象本身和一个对象的比较。compareTo方法参数是一个对象。
+
+业务场景：将优惠券排序。
+
+Comparator侧重于**外比较**，就像是帮助别人进行比较一样
+
+业务场景：对名称排序（有时候想按照首字母的拼音排序，有时候想按首字母的笔画排序。）这个时候就可以创建多个类实现Comparator接口。
+
+
+
+共同点：都可以使用Collections.sort()方法来对集合对象进行排序。
+
+
+
+## 扩展TreeMap
+
+相较于HashMap，TreeMap的主要特点在于可以比较元素的大小。在进行put的时候进行排序。其原理就是在创建Map的时候传入了一个比较器。在put方法的时候会调用这个比较器进行比较
+
+```java
+Map<String, String> map2 = new TreeMap<String, String>(
+                new Comparator<String>() {
+                    public int compare(String obj1, String obj2) {
+                        //升序排序（反过来就是降序排序）
+                        return obj1.compareTo(obj2);
+                    }
+                });
+```
+
+其中实现的逻辑可以用来进行比较；下面进行put的时候就会自动按照比较结果进行排序。
+
+
+
