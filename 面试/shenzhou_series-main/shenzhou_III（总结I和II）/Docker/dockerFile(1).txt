@@ -1,0 +1,11 @@
+FROM openjdk
+MAINTAINER coderymy<www.coderymy.cn>
+
+WORKDIR /usr
+
+RUN mkdir server
+
+ADD eureka-server-0.0.1-SNAPSHOT.jar /usr/server
+
+EXPOSE 8761 
+CMD java -jar eureka-server-0.0.1-SNAPSHOT.jar /usr/server --spring.profiles.active=peer1
