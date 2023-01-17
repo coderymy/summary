@@ -1,0 +1,71 @@
+<html>
+<head>
+  <title>Evernote Export</title>
+  <basefont face="微软雅黑" size="2" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="exporter-version" content="YXBJ Windows/606746 (zh-CN, DDL); Windows/10.0.0 (Win64); EDAMVersion=V2;"/>
+  <meta name="content-class" content="yinxiang.markdown"/>
+  <style>
+    body, td {
+      font-family: 微软雅黑;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<a name="593"/>
+
+<div><span><div style="font-size: 14px; margin: 0; padding: 0; width: 100%;"><h1 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 41px; border-bottom: 3px double #999; color: #000; margin-top: 14px;">2.1 创建shell脚本</h1>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;"><code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">mkdir studyShell</code>创建一个文件夹</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;"><code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">cd studyShell</code>进入这个文件夹</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;"><code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">vim helloWorld.sh</code> 创建一个名字为 <code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">helloWorld</code>的可执行文件.可执行文件需要使用<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">.sh</code>结尾.</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">编写shell脚本</p>
+<pre style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; margin: 2px 0 8px; background-color: #f5f7f8;"><code style="display: block; overflow-x: auto; background: #1e1e1e; line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; letter-spacing: -.3px; padding: 18px; color: #f4f4f4; white-space: pre-wrap;">#!/bin/shell
+
+echo 'hello world'
+
+</code></pre>
+<h1 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 41px; border-bottom: 3px double #999; color: #000;">2.2 执行shell脚本</h1>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">给shell脚本赋予可执行的权限</p>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">赋予权限</p>
+</blockquote>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">chomd 777 helloWorld.sh,其中777标识赋予的权限编码.也可以使用<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">chomd +x helloWorld.sh</code>标识增加可执行的权限</p>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">在新进程中执行命令</p>
+</blockquote>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">第一种方式:<br/>
+<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">./helloWorld.sh</code>执行可执行文件即发现控制台输出了脚本信息<br/>
+使用<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">./</code>的意思是,在当前目录下支持该脚本文件,如果不加,默认会去系统目录下,也就是配置的环境变量中找这个文件</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">第二种方式:<br/>
+将文件传给/bin/bash进行执行</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;"><code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">/bin/bash helloWorld.sh</code>,通过这种方式,则不需要在文件头指定执行的解析器是哪个</p>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">在当前进程中执行<br/>
+<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">source helloWorld.sh</code>或直接写成<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">. helloWorld.sh</code></p>
+</blockquote>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">总结:</p>
+<pre style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; margin: 2px 0 8px; background-color: #f5f7f8;"><code style="display: block; overflow-x: auto; background: #1e1e1e; line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; letter-spacing: -.3px; padding: 18px; color: #f4f4f4; white-space: pre-wrap;">在新进程中执行,使用
+bash helloWorld.sh
+
+在当前进程中执行,使用
+. ./helloWorld.sh
+
+</code></pre>
+<h1 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 41px; border-bottom: 3px double #999; color: #000;">2.3 解析shell脚本</h1>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">第一行:<br/>
+脚本中<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">#!/bin/bash</code>,其中<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">#!</code>是一个约定的标记,告诉系统这个脚本需要什么样的解释器执行.其后面的/bin/bash就是shell脚本的具体执行器位置</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">第二行:<br/>
+<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">echo</code>是一种标准输出,将信息输出到终端上</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">使用<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">#</code>后面加上注释来标注代码</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">稍微麻烦点的shell脚本</p>
+<pre style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; margin: 2px 0 8px; background-color: #f5f7f8;"><code style="display: block; overflow-x: auto; background: #1e1e1e; line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; letter-spacing: -.3px; padding: 18px; color: #f4f4f4; white-space: pre-wrap;">#!/bin/bash
+
+echo &quot;what is your name?&quot;
+read PERSON
+echo &quot;Hello,$PERSON&quot;
+</code></pre>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">read,表示从控制台输入信息,将其赋值到PERSON变量中.</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">后面使用时使用$PERSON来引用这个变量的信息</p>
+</div><center style="display:none !important;visibility:collapse !important;height:0 !important;white-space:nowrap;width:100%;overflow:hidden">%23%202.1%20%E5%88%9B%E5%BB%BAshell%E8%84%9A%E6%9C%AC%0A%0A%60mkdir%20studyShell%60%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9%0A%0A%60cd%20studyShell%60%E8%BF%9B%E5%85%A5%E8%BF%99%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9%0A%0A%60vim%20helloWorld.sh%60%20%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%90%8D%E5%AD%97%E4%B8%BA%20%60helloWorld%60%E7%9A%84%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6.%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%60.sh%60%E7%BB%93%E5%B0%BE.%0A%0A%E7%BC%96%E5%86%99shell%E8%84%9A%E6%9C%AC%0A%60%60%60%0A%23!%2Fbin%2Fshell%0A%0Aecho%20'hello%20world'%0A%0A%60%60%60%0A%0A%23%202.2%20%E6%89%A7%E8%A1%8Cshell%E8%84%9A%E6%9C%AC%0A%E7%BB%99shell%E8%84%9A%E6%9C%AC%E8%B5%8B%E4%BA%88%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%9A%84%E6%9D%83%E9%99%90%0A%0A%3E%20%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90%0A%0Achomd%20777%20helloWorld.sh%2C%E5%85%B6%E4%B8%AD777%E6%A0%87%E8%AF%86%E8%B5%8B%E4%BA%88%E7%9A%84%E6%9D%83%E9%99%90%E7%BC%96%E7%A0%81.%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%60chomd%20%2Bx%20helloWorld.sh%60%E6%A0%87%E8%AF%86%E5%A2%9E%E5%8A%A0%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%9A%84%E6%9D%83%E9%99%90%0A%0A%3E%20%E5%9C%A8%E6%96%B0%E8%BF%9B%E7%A8%8B%E4%B8%AD%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%0A%0A%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%96%B9%E5%BC%8F%3A%0A%60.%2FhelloWorld.sh%60%E6%89%A7%E8%A1%8C%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E5%8D%B3%E5%8F%91%E7%8E%B0%E6%8E%A7%E5%88%B6%E5%8F%B0%E8%BE%93%E5%87%BA%E4%BA%86%E8%84%9A%E6%9C%AC%E4%BF%A1%E6%81%AF%0A%E4%BD%BF%E7%94%A8%60.%2F%60%E7%9A%84%E6%84%8F%E6%80%9D%E6%98%AF%2C%E5%9C%A8%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E4%B8%8B%E6%94%AF%E6%8C%81%E8%AF%A5%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6%2C%E5%A6%82%E6%9E%9C%E4%B8%8D%E5%8A%A0%2C%E9%BB%98%E8%AE%A4%E4%BC%9A%E5%8E%BB%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E4%B8%8B%2C%E4%B9%9F%E5%B0%B1%E6%98%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%B8%AD%E6%89%BE%E8%BF%99%E4%B8%AA%E6%96%87%E4%BB%B6%0A%0A%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%96%B9%E5%BC%8F%3A%0A%E5%B0%86%E6%96%87%E4%BB%B6%E4%BC%A0%E7%BB%99%2Fbin%2Fbash%E8%BF%9B%E8%A1%8C%E6%89%A7%E8%A1%8C%0A%0A%60%2Fbin%2Fbash%20helloWorld.sh%60%2C%E9%80%9A%E8%BF%87%E8%BF%99%E7%A7%8D%E6%96%B9%E5%BC%8F%2C%E5%88%99%E4%B8%8D%E9%9C%80%E8%A6%81%E5%9C%A8%E6%96%87%E4%BB%B6%E5%A4%B4%E6%8C%87%E5%AE%9A%E6%89%A7%E8%A1%8C%E7%9A%84%E8%A7%A3%E6%9E%90%E5%99%A8%E6%98%AF%E5%93%AA%E4%B8%AA%0A%0A%3E%20%E5%9C%A8%E5%BD%93%E5%89%8D%E8%BF%9B%E7%A8%8B%E4%B8%AD%E6%89%A7%E8%A1%8C%0A%60source%20helloWorld.sh%60%E6%88%96%E7%9B%B4%E6%8E%A5%E5%86%99%E6%88%90%60.%20helloWorld.sh%60%0A%0A%E6%80%BB%E7%BB%93%3A%0A%60%60%60%0A%E5%9C%A8%E6%96%B0%E8%BF%9B%E7%A8%8B%E4%B8%AD%E6%89%A7%E8%A1%8C%2C%E4%BD%BF%E7%94%A8%0Abash%20helloWorld.sh%0A%0A%E5%9C%A8%E5%BD%93%E5%89%8D%E8%BF%9B%E7%A8%8B%E4%B8%AD%E6%89%A7%E8%A1%8C%2C%E4%BD%BF%E7%94%A8%0A.%20.%2FhelloWorld.sh%0A%0A%0A%60%60%60%0A%0A%23%202.3%20%E8%A7%A3%E6%9E%90shell%E8%84%9A%E6%9C%AC%0A%E7%AC%AC%E4%B8%80%E8%A1%8C%3A%0A%E8%84%9A%E6%9C%AC%E4%B8%AD%60%23!%2Fbin%2Fbash%60%2C%E5%85%B6%E4%B8%AD%60%23!%60%E6%98%AF%E4%B8%80%E4%B8%AA%E7%BA%A6%E5%AE%9A%E7%9A%84%E6%A0%87%E8%AE%B0%2C%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%84%9A%E6%9C%AC%E9%9C%80%E8%A6%81%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E8%A7%A3%E9%87%8A%E5%99%A8%E6%89%A7%E8%A1%8C.%E5%85%B6%E5%90%8E%E9%9D%A2%E7%9A%84%2Fbin%2Fbash%E5%B0%B1%E6%98%AFshell%E8%84%9A%E6%9C%AC%E7%9A%84%E5%85%B7%E4%BD%93%E6%89%A7%E8%A1%8C%E5%99%A8%E4%BD%8D%E7%BD%AE%0A%0A%E7%AC%AC%E4%BA%8C%E8%A1%8C%3A%0A%60echo%60%E6%98%AF%E4%B8%80%E7%A7%8D%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA%2C%E5%B0%86%E4%BF%A1%E6%81%AF%E8%BE%93%E5%87%BA%E5%88%B0%E7%BB%88%E7%AB%AF%E4%B8%8A%0A%0A%E4%BD%BF%E7%94%A8%60%23%60%E5%90%8E%E9%9D%A2%E5%8A%A0%E4%B8%8A%E6%B3%A8%E9%87%8A%E6%9D%A5%E6%A0%87%E6%B3%A8%E4%BB%A3%E7%A0%81%0A%0A%E7%A8%8D%E5%BE%AE%E9%BA%BB%E7%83%A6%E7%82%B9%E7%9A%84shell%E8%84%9A%E6%9C%AC%0A%0A%60%60%60%0A%23!%2Fbin%2Fbash%0A%0Aecho%20%22what%20is%20your%20name%3F%22%0Aread%20PERSON%0Aecho%20%22Hello%2C%24PERSON%22%0A%60%60%60%0A%0Aread%2C%E8%A1%A8%E7%A4%BA%E4%BB%8E%E6%8E%A7%E5%88%B6%E5%8F%B0%E8%BE%93%E5%85%A5%E4%BF%A1%E6%81%AF%2C%E5%B0%86%E5%85%B6%E8%B5%8B%E5%80%BC%E5%88%B0PERSON%E5%8F%98%E9%87%8F%E4%B8%AD.%0A%0A%E5%90%8E%E9%9D%A2%E4%BD%BF%E7%94%A8%E6%97%B6%E4%BD%BF%E7%94%A8%24PERSON%E6%9D%A5%E5%BC%95%E7%94%A8%E8%BF%99%E4%B8%AA%E5%8F%98%E9%87%8F%E7%9A%84%E4%BF%A1%E6%81%AF%0A%0A%0A%0A%0A</center></span>
+</div></body></html> 
