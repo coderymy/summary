@@ -70,6 +70,8 @@
 > - 提供在监听器中注册bean的事件。
 >
 > 创建Bean的实际不同：BeanFactory使用延时加载创建Bean，用到的时候再创建。ApplicationContext是在容器启动的时候一次性创建所有的Bean，所以启动较慢。
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230128143839.png)
 
 9、spring如何解决循环依赖
 
@@ -119,9 +121,11 @@ spring事务的传播机制说的是，当多个事务同时存在的时候，sp
 >
 > **动态代理和静态代理的区别**
 >
-> 动态代理，使用jdk内置的或者cglib来实现，不需要自己实现代理类，只需要按照提供的接口方法实现即可。相较于静态代理的代理对象，每次都动态的调配代理对象
+> 动态代理，使用jdk内置的或者cglib来实现，不需要自己实现代理类，只需要按照提供的接口方法实现即可。相较于静态代理的代理对象，每次都动态的调配代理对象。
 >
 > 静态代理，就是基础的**代理模式**的代理方法，实现之后，使用代理类实现代理对象即可
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230128155301.png)
 >
 > **动态代理**
 >
@@ -144,7 +148,17 @@ spring事务的传播机制说的是，当多个事务同时存在的时候，sp
 >
 > spring-aop优化了整个流程，使用注解的方式实现，本质还是基于上面三种
 
+13、Spring的注入方式
 
+>1、构造方法注入
+>
+>2、setter注入
+>
+>​	所谓setter注入就是根据类的set方法对属性进行属性值的赋值
+>
+>![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230128143758.png)
+>
+>
 
 
 
