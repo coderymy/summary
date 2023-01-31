@@ -23,6 +23,10 @@
 > > ```
 >
 > watchdog代码，使用redission工具。
+>
+> 还有一种使用方式
+>
+> `set key value ex|px expireTime nx`，其中ex|px（ex表示秒、px表示毫秒）表示设置过期时间，nx表示只有不存在的时候才能设置成功（存在则失败）
 
 2、redis线程模型，单线程为什么还这么快「内单多高」
 

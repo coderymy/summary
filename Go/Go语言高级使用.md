@@ -31,7 +31,7 @@ copy(target,source)
 2. `cap()`,获取当前切片设置的最大长度
 3. 截取 `array[开始index:截止index]`.不包含开始节点和结束节点
 
-# 范围(range)
+# 2. 范围(range)
 
 结合切片使用,一般用来循环获取前片中的元素
 
@@ -45,7 +45,7 @@ copy(target,source)
 这样会便利nums中的所有元素一遍
 
 
-# 集合Map
+# 3. 集合Map
 
 **初始化**
 ```go
@@ -67,7 +67,7 @@ delete(strMap,"cat")
 ```
 
 
-# JSON
+# 4. JSON
 + 序列化
   结构体->json
   []byte ,error=json.Marshal(v interface{})
@@ -116,3 +116,18 @@ func main() {
 	fmt.Println(a)
 }
 ```
+
+# 5. defer
+
+defer运行特点
+
+- 在return之后执行
+- 先赋值后放入堆栈
+
+![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230131155707.png)
+
+# 6. recover()
+
+该函数可以捕获panic异常，进行处理	
+
+[recover()使用](https://blog.csdn.net/xlh1121079556/article/details/117984222)
