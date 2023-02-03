@@ -1089,3 +1089,207 @@ EXPIRE 和 PERSIST 命令
 
 
 
+# 命令
+
+redis-cli，使用客户端链接server
+
+```
+-a 后面接密码
+-h 后面接主机ip
+-p 后面接端口
+
+redis-cli shutdown 关闭服务端
+```
+
+redis-server，server端的操作
+
+```
+redis-server redis.conf使用配置文件启动
+```
+
+
+
+## Key
+
+1、删除key
+
+> del [key]
+
+2、设置key的有效时间s
+
+> expire [key] [seconds]
+
+3、设置key的有效时间ms
+
+> pexpire [key] [ms]
+
+4、使用字符串匹配查找key
+
+> keys [pattern]
+>
+> `keys *`查找所有的key
+
+5、查看key的有效时间s
+
+> ttl [key]
+
+## 字符串
+
+1、设置字符串
+
+> set [key] [val]
+
+2、获取字符串
+
+> get [key]
+
+3、重设key的值，并返回久值
+
+> getset key val
+
+4、一次获取多个
+
+> mget key1 key2 ...
+
+5、不存在则创建
+
+> setnx key val
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203135722.png)
+
+6、自增1
+
+> incr key
+
+7、自减1
+
+> decr key
+
+## hash
+
+1、设置key field
+
+> hmset key field1 val1 field2 val2
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203140308.png)
+
+2、获取key对应field
+
+> hmget key field1 [field2...]
+
+3、获取key中所有字段
+
+> hgetall key
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203140530.png)
+
+4、删除key中的某一字段
+
+> hdel key field1 [field2...]
+
+5、field不存在则创建对应field
+
+> hsetnx key field1 val
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203140723.png)
+
+## 列表
+
+1、将一个或多个值插入到尾部
+
+> lpush key val1 [val2...]
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203142217.png)
+
+2、将一个值插入已存在的列表头部
+
+> lpushx key val
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203142300.png)
+
+3、使用范围查看元素
+
+> lrange key start end
+
+4、移除并获取第一个元素
+
+> lpop key
+
+5、移除获取列表第一个元素，如果没有则超时等待
+
+> blpop key1 [key2] timeout
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203142810.png)
+
+6、移除获取列表最后一个元素，如果没有就超时等待
+
+> brpop key1 [key2...] timeout
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203142851.png)
+
+7、通过索引获取元素
+
+> lindex key index
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203143001.png)
+
+## 集合
+
+无序集合
+
+1、向集合中添加元素
+
+> sadd key member1 [member2...]
+
+2、获取集合中元素数量
+
+> scard key
+
+3、判断元素是否在集合中
+
+> sismember key member
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203145700.png)
+
+4、获取集合中所有成员
+
+> smembers key
+
+5、随机移除并返回一个成员
+
+> spop key
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203145846.png)
+
+6、随机返回一个或多个成员
+
+> srandmember key [count]
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203150022.png)
+
+## 有序集合
+
+1、添加成员及分数
+
+> zadd key score1 member1 [score2 member2...]
+
+2、通过索引区间，返回指定区间的成员
+
+> zrange key start end
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203152203.png)
+
+3、通过成员，返回分值
+
+> zrank key member
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203152327.png)
+
+4、移除成员
+
+> zrem key member1 [member2...]
+
+![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230203153230.png)
+
+
+
