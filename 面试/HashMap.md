@@ -24,6 +24,12 @@
 >
 > 2、锁的粒度不同，hashTable是整个数组一个锁。concurrentHashMap是每个哈希桶一个锁，且只对写操作加锁
 
+3、LinkedHashMap和HashMap的区别
+
+>1、底层都是使用数组+链表实现。但是LinkedHashMap是有序的，hashMap是无序的
+>
+>2、LinkedHashMap底层使用双向链表保持顺序。（原有的结构上，增加一个双向链表用于记录顺序，分为访问顺序和插入顺序）
+
 
 
 # 1. hashMap的结构

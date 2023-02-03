@@ -121,14 +121,13 @@ func main() {
 
 defer运行特点
 
-- 在return之后执行
-- 先赋值后放入堆栈
+在函数结束的时候执行。一般用于资源释放
 
 ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230131155707.png)
 
 # 6. recover()
 
-该函数可以捕获panic异常，进行处理	
+可以让进入宕机（panic异常）流程中的 goroutine 恢复过来，recover 仅在延迟函数 defer 中有效
 
 [recover()使用](https://blog.csdn.net/xlh1121079556/article/details/117984222)
 
