@@ -1002,6 +1002,7 @@ GC Roots包括以下几类元素
 > 1. jps获取进程id，`jmap -dump:format=b.live.file=test1.bin 12220`
 > 2. 使用JVisualVM可视化的方式来生成dump文件
 >
+> 
 
 ## 5.3 垃圾清除算法
 

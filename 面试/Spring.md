@@ -147,6 +147,13 @@ spring事务的传播机制说的是，当多个事务同时存在的时候，sp
 > 第三种：cglib代理，通过实现MethodIntercepter对象来创建代理类
 >
 > spring-aop优化了整个流程，使用注解的方式实现，本质还是基于上面三种
+>
+> spring 中 AOP 的实现是**「通过动态代理实现的」**，如果是实现了接口就会使用 JDK 动态代理，否则就使用 CGLIB 代理。
+>
+> ##### Spring AOP 和 AspectJ AOP 有什么区别？
+>
+> + Spring AOP 是运行时增强，是通过**「动态代理实现」**的
+> + AspectJ AOP 是编译时增强，需要特殊的编译器才可以完成，是通过**「修改代码来实现」**的，支持**「三种织入方式」**
 
 13、Spring的注入方式
 
@@ -158,7 +165,38 @@ spring事务的传播机制说的是，当多个事务同时存在的时候，sp
 >
 >![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230128143758.png)
 >
+
+14、Spring的IOC容器有哪些
+
+> BeanFactory和ApplicationContext。
 >
+> BeanFactory **「只提供了最基本的实例化对象和拿对象的功能」**
+>
+> ApplicationContext 是BeanFactory 子类，支持注解注入、国际化等功能
+
+15、Spring如何解决循环依赖
+
+> [学习自](https://blog.csdn.net/m0_46420244/article/details/126215891)
+>
+> 什么是循环依赖：
+>
+> ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230206163900.png)
+>
+> 
+>
+> 使用三级缓存的方式解决（单例bean）
+>
+> 一级缓存： 存储的是所有创建好了的单例Bean
+> 二级缓存：earlySingletonObjects完成实例化，但是还**未进行属性注入**及初始化的对象
+> 三级缓存：singletonFactories提前暴露的一个单例工厂，二级缓存中存储的就是从这个工厂中获取到的对象。
+>
+> 逻辑就是
+>
+> 1、A去找B，在缓存中没找到B。就开始实例化自己，但是发现B没有就需要去先实例化B（此时将A放到了二级缓存中）。
+>
+> 2、实例化B的过程去找A，在二级缓存中找到了A，属性注入，最终创建好了B放入一级缓存。
+>
+> 3、然后再对A进行初始化，此时有B了，就创建好了A放入一级缓存
 
 
 
