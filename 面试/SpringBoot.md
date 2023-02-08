@@ -20,13 +20,17 @@
 + `@EnableAutoConfiguration()`: 启动自动配置
 +  `@ComponentScan()`：指定扫描哪些 Spring 注解
 
-## **springboot的[自动装配](https://so.csdn.net/so/search?q=自动装配&spm=1001.2101.3001.7020)原理**
+## SpringBoot的自动装配
+
+是什么：
+
+springboot的**自动装配**实际上就是为了从**spring.factories**文件中获取到对应的需要进行自动装配的类，并生成相应的Bean对象，然后将它们交给spring容器来帮我们进行管理
+
+原理：
 
 1. SpringBoot启动的时候加载主配置类，开启了自动配置功能@EnableAutoConfiguration。
-2. 通告@ComponentScan注解扫描需要加载到ioc中的配置类。然后再扫描@Import类将第三方jar中的配置类导入进来。
+2. 通过@ComponentScan注解扫描需要加载到ioc中的配置类。然后再扫描@Import类将第三方jar中的配置类导入进来。
 3. 导入第三方jar配置的时候有些变量会指向性的去配置文件中找对应的属性值。就需要开发者手动写入。
-
-1. SpringBoot启动的时候加载主配置类，开启了自动配置功能@EnableAutoConfiguration。
 2. 查看@EnableAutoConfiguration，其作用是利用AutoConfigurationImportSelector给容器中导入一些组件。
 3. 查看AutoConfigurationImportSelector，其中public String[] selectImports(AnnotationMetadata annotationMetadata)方法内 最终调用getCandidateConfigurations()方法
 4. 查看 getCandidateConfigurations(AnnotationMetadata metadata, AnnotationAttributes attributes)，获取候选的配置，这个是扫描所有jar包类路径下"META-INF/spring.factories"

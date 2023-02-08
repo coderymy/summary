@@ -2,27 +2,21 @@
 
 1、hashMap和hashTable的区别
 
-> 线程安全问题：
+> ①、HashMap 是线程不安全的，HashTable 是线程安全的；
 >
-> hashTable：线程安全的
+> ②、由于线程安全，所以 HashTable 的效率比不上 HashMap；
 >
-> hashMap：线程不安全的
+> ③、HashMap最多只允许一条记录的键为null，允许多条记录的值为null，而 HashTable不允许；
 >
-> 是否包含contains方法
+> ④、HashMap 默认初始化数组的大小为16，HashTable 为 11，前者扩容时，扩大两倍，后者扩大两倍+1；
 >
-> hashTable包含、hashMap没有
->
-> 数据结构上：
->
-> hashMap在jdk8之后新增了红黑树的结构
->
-> hashTable没有红黑树的结构，只有链表
+> ⑤、HashMap 需要重新计算 hash 值，而 HashTable 直接使用对象的 hashCode
 
 2、hashTable和concurrentHashMap的区别
 
 > 1、数据结构不一样，hashTable全部都是链表结构，没有转换红黑树的情况
 >
-> 2、锁的粒度不同，hashTable是整个数组一个锁。concurrentHashMap是每个哈希桶一个锁，且只对写操作加锁
+> 2、锁的粒度不同，hashTable是整个数组一个锁。concurrentHashMap是每个哈希桶一个锁，且只对写操作加锁（1.8之后）
 
 3、LinkedHashMap和HashMap的区别
 
@@ -30,7 +24,15 @@
 >
 >2、LinkedHashMap底层使用双向链表保持顺序。（原有的结构上，增加一个双向链表用于记录顺序，分为访问顺序和插入顺序）
 
+4、说说你对红黑树的见解？
 
+> - 每个节点非红即黑
+> - 根节点总是黑色的
+> - 如果节点是红色的，则它的子节点必须是黑色的（反之不一定）
+> - 每个叶子节点都是黑色的空节点（NIL节点）
+> - 从根节点到叶节点或空子节点的每条路径，**必须包含相同数目的黑色节点**（即相同的黑色高度）
+
+> 
 
 # 1. hashMap的结构
 

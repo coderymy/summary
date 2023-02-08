@@ -1,3 +1,21 @@
+# 问题
+
+1、Vector和ArrayList
+
+> Vector是长度可变的数组，是线程安全的。每个方法都加了**synchronized**关键字。其他的和ArrayList一样
+
+2、ConcurrentHashMap、hashTable、HashMap
+
+> 线程安全：前两个是线程安全的，hashMap线程不安全
+>
+> 锁的实现：前两个线程安全的实现不一样。concurrenthashMap锁的粒度更小（1.8之前分段锁，之后是Node节点）。hashTable是`synchronized`加在方法上，相当于对象级的锁。
+>
+> 红黑树优化：concurrentHashMap和HashMap都有红黑树的优化。HashTable没有
+
+
+
+
+
 # 集合
 
 ## List、Set和Map的理解

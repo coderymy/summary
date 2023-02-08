@@ -62,6 +62,12 @@ CallerRunsPolicy：由调用线程（提交任务的线程）处理该任务
 
 
 
+8、synchronized的实现原理
+
+> 在同步代码块的起始位置插入了`moniterenter`指令，结束的位置插入了`monitorexit`指令。执行`moniterenter`的时候尝试获取对象的锁。如果这个锁没有被锁定或者当前线程已经拥有了那个对象的锁，锁的计数器就加1，在执行`monitorexit`指令时会将锁的计数器减1，当减为0的时候就释放锁。
+
+9、简述CAS和AQS
+
 
 
 第一步，知道锁怎么用—Synchronized、Lock
