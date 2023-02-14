@@ -106,19 +106,15 @@ G1：
 
 ## MinorGC、MajorGC和FullGC
 
-MinorGC：正常GC，针对年轻代进行回收。Eden满了触发，将Eden和From复制到To中，STW
+MinorGC（新生代）：正常GC，针对年轻代进行回收。Eden满了触发，将Eden和From复制到To中，STW
 
-MajorGC：老年代满了，进行老年代回收（一般在MinorGC之后），STW
+MajorGC（老年代）：老年代满了，进行老年代回收（一般在MinorGC之后），STW
 
-FullGC：进行MajorGC不能得到效果，进行整堆收集，包括方法区。
+FullGC（整堆及方法区）：进行MajorGC不能得到效果，进行整堆收集，包括方法区。
 
 ## G1的分区算法
 
-
-
-## CMS工作原理
-
-
+G1在CMS的并发收集基础之上（也有并发标记和最终标记两部分）。将整个内存空间划分成同样大小的region（大对象使用多个连续的region存储）。每次清理只清理局部区域的内存空间。所以STW时间要较于CMS小
 
 # 问题
 
