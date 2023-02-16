@@ -435,17 +435,9 @@ public class UserDefinedClassLoader extends ClassLoader {
 3. TLAB：将整个的堆空间按照每个线程区分出来，每个线程独有一块私有的缓冲区TLAB
 4. 存储：几乎所有的实例对象和数组都存储在堆上
 
-### 2.4.2 堆逻辑细分
-
-Java7及之前：新生代（Eden和Survivor）、老年代和~~永久代~~
-
-Java8及之后：新生代（Eden和Survivor）、老年代和~~元空间（meta space）~~
 
 
-
-
-
-### 2.4.3 堆空间调优参数
+### 2.4.2 堆空间调优参数
 
 -Xms，初始堆空间大小。-XX:InitialHeapSize。例-Xms1024m
 
