@@ -196,26 +196,9 @@ spring事务的传播机制说的是，当多个事务同时存在的时候，sp
 >
 > 2、实例化B的过程去找A，在二级缓存中找到了A，属性注入，最终创建好了B放入一级缓存。
 >
-> 3、然后再对A进行初始化，此时有B了，就创建好了A放入一级缓存
+> 3、然后再对A进行初始化，此时有B了，就创建好了A放入一级缓存。最终达到A中有B，B中有A
 
 
-
-
-
-# Spring要学什么
-
-+ Spring是什么，为什么要用Spring
-+ Spring的一些核心概念：IOC、AOP、事务
-+ Spring的核心组件的原理实现
-+ Spring中的设计模式
-+ Spring的一些核心注解的实现方式
-
-
-
-+ IOC的注入方式
-+ Spring事务
-+ AOP的实现原理
-+ Bean的生命周期
 
 
 
@@ -1172,3 +1155,8 @@ ConfigurableApplicationContext context = SpringApplication.run(CoderymyDemoAppli
         }
 ```
 
+## @Autowired和@Resource的区别
+
+@Autowired默认使用**类型**去匹配（类），如果一个类的实例对象有多个再按照**属性值**去匹配
+
+@Resource默认使用属性值的name去匹配（或者设置的name去匹配）
