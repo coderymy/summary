@@ -400,6 +400,8 @@ kafka
 
 ## 延时队列
 
+开源版本的RocketMQ仅支持设置的18个等级的时间延时。不支持任意时间
+
 实现原理：
 
 ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/uPic/IDTNNu.jpg)

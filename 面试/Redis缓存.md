@@ -179,7 +179,7 @@ zset结构使用的底层数据结构，双向链表的基础上加上了多层�
 
 三种模式
 
-##主从复制模式
+## 主从复制模式
 
 ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/uPic/UgQ6N8.jpg)
 
@@ -258,7 +258,7 @@ Redis 客户端可以在任意一个 Redis 实例发出请求，如果所需数�
 
 + 自动将数据进行分片,每个master上放一部分数据
 
-![](https://img-blog.csdnimg.cn/2018112814193762.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1MTUyMDM3,size_16,color_FFFFFF,t_70)
+![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230221142252.png)
 
 创建每个redis的服务端进行cluster的时候,需要给每个服务端分配hash槽
 
@@ -987,10 +987,6 @@ EXPIRE 和 PERSIST 命令
 客户端 1 加锁的锁 key 默认生存时间才 30 秒，如果超过了 30 秒，客户端 1 还想一直持有这把锁，怎么办呢？
 
 **简单！**只要客户端 1 一旦加锁成功，就会启动一个 watch dog 看门狗，他是一个后台线程，会每隔 10 秒检查一下，如果客户端 1 还持有锁 key，那么就会不断的延长锁 key 的生存时间。
-
-
-
-
 
 # 问题
 
