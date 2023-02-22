@@ -92,16 +92,6 @@
 
 
 
-集合的框架结构
-
-![](/Users/kaochong/Documents/学习之路/shenzhou_series/shenzhou_I/img/838837-20190521092648019-983754481.png)
-
-![image-20210607172800543](/Users/kaochong/Documents/学习之路/shenzhou_series/shenzhou_I/img/image-20210607172800543.png)
-
-
-
-
-
 ## list、set与map
 
 list是可重复,有序

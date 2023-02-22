@@ -49,3 +49,22 @@
 2、主从结构去中心化，出现故障，自动进行切换
 
 3、数据复制，防止数据丢失
+
+## Redis线程模型
+
+[线程模型](https://www.iamshuaidi.com/2592.html)
+
+1、内部多个Socket发起链接，进行链接的时候Socket产生AE_READABLE（可读时产生）和AE_WAITABLE（可写时产生）
+
+2、发送到IO多路复用程序，IO多路复用程序管理Socket链接，将已经就绪的socket压入队列中排队等待处理
+
+3、当排队等到要处理的时候，文件事件分派器判断当前socket是什么类型，将其调用对应的处理器去处理
+
++ 连接应答处理器：socket是要建立链接
++ 命令请求处理：socket是要进行读操作
++ 命令回复处理：socket是要进行写操作。
+
+![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20230221164157.png)
+
+
+
