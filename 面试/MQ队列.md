@@ -77,6 +77,8 @@ master与slave之间的关系
 
 ### 多master多slave
 
+[特点及区别](https://blog.csdn.net/weixin_43882788/article/details/124865506)
+
 **异步复制**
 
 在配置了RAID磁盘阵列的情况下，一个master一般配置一个slave即可。master与slave的关系是主备关系，即master读写请求，而slave消息的备份与master宕机后的角色切换。
