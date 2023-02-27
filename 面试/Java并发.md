@@ -500,8 +500,6 @@ ConcurrentHashMap：在进行元素添加的时候增加了`synchronized`关键�
 
 让所有线程都等待，直到所有线程都达到一个固定的点才执行barrierAction方法
 
-
-
 相当于多段操作，每段操作使用await()方法阻塞等待在那。比如部队里士兵训练。当所有士兵都跑完步才开始去往食堂，当所有士兵都打完饭才开始吃饭，当所有士兵都吃完饭才去洗澡
 
 需要注意的是，协调好ThreadSize、PartiesSize、TaskSize之间的关系，不然就会导致永远等待
