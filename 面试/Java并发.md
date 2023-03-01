@@ -70,6 +70,12 @@ CallerRunsPolicy：由调用线程（提交任务的线程）处理该任务
 
 
 
+10、创建线程的方式
+
+> 1、继承Thread、实现Runnable、Callable接口
+>
+> 2、使用ThreadPoolExecutor类创建
+
 第一步，知道锁怎么用—Synchronized、Lock
 
 第二步，解析锁的一些原理—CAS、AQS等

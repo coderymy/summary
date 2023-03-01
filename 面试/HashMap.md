@@ -232,7 +232,7 @@ hash的公式：`index=HashCode(Key)&(Length-1)`
 
 <font color="red">**Java8**</font>之后：
 
-1. 加锁范围尽量的小，抛弃了Segment的概念而采用CAS + synchronized来保证线程安全
+1. 加锁范围尽量的小，抛弃了Segment的概念而采用**CAS + synchronized**来保证线程安全（之前segment的时候需要两次定位，先定位segment再定位index。8之后只需要一次定位）
 2. 也和HashMap的优化一样增加了红黑树来协助取数据链表的速度慢的问题
 3. 扩容
 4. 将原本的HashEntry 改为 Node。其中的val next 都用了 volatile
@@ -397,3 +397,31 @@ key可以为空，计算结果index表示放在HashMap的数组的第一个位�
 ## 15. 为什么右移16位进行异或运算
 
 因为后面需要将这个hashcode与map的大小进行与运算来获取其下标地址。但是map的大小一般不会很大，所以一般只会与hashcode的后面几位进行运算。为了降低这个后面几位的重复出现的情况进行了上面的操作
+
+## 16. Map的哪种遍历方式效率最高
+
+Iterator方式效率最高
+
+```java
+ public static void main(String[] args) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("aaa", "111");
+        map.put("bbb", "222");
+        map.put("ccc", "333");
+        //使用迭代器遍历Map
+        Iterator<Map.Entry<String, String>> iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String, String> entry = iter.next();
+            System.out.println(entry.getKey() + "\t" + entry.getValue());
+        }
+    }
+
+```
+
+还有其他遍历方式
+
+> keySet()：`for (String key : map.keySet())`
+>
+> Entry：`for (Map.Entry<String, String> entry : map.entrySet())`
+
+迭代器的遍历方式，在所有集合类型中都有。包括ArrayList

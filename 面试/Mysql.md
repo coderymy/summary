@@ -416,9 +416,9 @@ Multi-Version Concurrency Control，多版本并发控制。
 
 **生成ReadView的时机不同**
 
-RR是在一个事务中每次进行select操作的时候就生成一个readView。（如果两个select操作之间有提交的事务，那么第二次select的版本链就不一样了）
+RC是在一个事务中每次进行select操作的时候就生成一个readView。（如果两个select操作之间有提交的事务，那么第二次select的版本链就不一样了）
 
-RC是在事务创建的时候针对这个事务生成一个readView（所以每次进行select的时候都是同一个）
+RR是在事务创建的时候针对这个事务生成一个readView（所以每次进行select的时候都是同一个）
 
 # 索引
 
