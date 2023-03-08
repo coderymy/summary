@@ -78,7 +78,7 @@ g. Mapping阶段充分结合各个字段的属性，是否需要检索、是否�
 1. 对所有可以成为 Master 的节点（node.master: true）根据 nodeId 排序，每次选举每个节点都把自己所知道节点排一次序，然后选出第一个（第0位）节点，暂且认为它是 Master 节点。
 2. 如果对某个节点的投票数达到一定的值（可以成为master节点数n/2+1）并且该节点自己也选举自己，那这个节点就是master。否则重新选举。
 
-(当然也可以自己设定一个值，最小值设定为超过能成为Master节点的n/2+1，否则会出现脑裂问题。discovery.zen.minimum_master_nodes)
+(当然也可以自己设定一个值，最小值设定为超过能成为Master节点的n/2+1，否则会出现脑裂问题。discovery.zen.minimum_master_nodes)	
 
 ## 4. 描述一下 Elasticsearch 索引文档的过程
 
@@ -240,3 +240,8 @@ HyperLogLog：
 基于 word2vec 和 Elasticsearch 实现个性化搜索，它有以下优点：
 
 1. 基于word2vec的商品向量还有一个可用之处，就是可以用来实现相似商品的推荐；****
+
+
+
+
+
