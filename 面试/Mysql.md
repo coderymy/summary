@@ -50,11 +50,11 @@
 
 6、Mysql的主从复制原理
 
-1、mysql进行增删改的时候会生成对应操作语句的binlog存储在binlog日志中
-
-2、slave连接master之后，slave有一个IO线程定时的去访问master的binlog dump thread去获取binlog日志信息。
-
-3、访问到日志之后存储在retry log中。然后salve会有一个线程专门从retry-log中取出来日志信息，持久化磁盘上
+> 1、mysql进行增删改的时候会生成对应操作语句的binlog存储在binlog日志中
+>
+> 2、slave连接master之后，slave有一个IO线程定时的去访问master的binlog dump thread去获取binlog日志信息。
+>
+> 3、访问到日志之后存储在retry log中。然后salve会有一个线程专门从retry-log中取出来日志信息，持久化磁盘上
 
 7、锁的分类
 
