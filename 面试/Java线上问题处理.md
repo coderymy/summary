@@ -4,21 +4,56 @@
 
 ## CPU资源占用满了
 
-cpu异常，在Java中一般是以下几种情况导致的
+**Java-CPU过满**
 
-+ 死循环 jstack
-+ 频繁GC jstat
+原因：
+
++ 死循环     jstack
++ 频繁GC     jstat
 + 上下文切换过多 vmstat
 
 解决方案
 
 第一步、使用top命令看到是哪个进程ID占用cpu资源过多
 
-第二步、使用`top -H -p pid`，获取线程占用情况的tid
+![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/68f185214b827072bd351b627993bb65.png)
 
-第三步、将占用最高的线程tid转换成16进制`printf '%x\n' nid`
+第二步、使用`top -Hp pid`，"top -Hp 29706"获取线程占用情况的PID。
+
+![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/6f04b6a0611cb81c3e9e2f45e02349d3.png)
+
+第三步、将占用最高的线程tid转换成16进制`printf '%x\n' nid`printf '%x\n' 30309
+
+![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/4667794917dac5464a08a26329e74f08.png)
 
 第四步、使用jstack将对应线程的堆栈信息输出出来`jstack pid |grep 'nid' -C5 –color`（16进制是四位，不够前面补充0x）
+
+```
+ # 将该进程的信息输出到txt文件中
+ jstack -l 进程ID > ./jstack_result.txt
+ # 使用线程号定位到代码
+ cat jstack_result.txt |grep -A 100  7665
+```
+
+![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/303f28318244ce3fb05f18f0d91e7c75.png)
+
+然后就是分析代码问题。解决问题重启服务
+
+**Mysql-CPU过满**
+
+原因：
+
+1、并发大
+
+2、Sql查询性能低，没使用索引
+
+3、开启慢查询日志记录
+
+解决方案：
+
+1、在mysql客户端中使用`show processlist;`查看正在运行的线程，同时可以看到操作的语句等
+
+2、对语句进行分析，是否没有建立索引，是否需要建立缓存。进行操作即可
 
 ## 磁盘问题
 
@@ -54,16 +89,6 @@ cpu异常，在Java中一般是以下几种情况导致的
 
 在启动参数中指定-XX:+
 HeapDumpOnOutOfMemoryError来保存 OOM 时的 dump 文件。但是主要要定时删除，防止磁盘被压满
-
-## Java进程忽然没了
-
-
-
-
-
-## 对于业务时间长的业务如何调整jvm参数、对于业务短的如何调整jvm、对于IO密集的如何调整jvm
-
- 
 
 ## 方法区“内存溢出”OOM
 
