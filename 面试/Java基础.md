@@ -12,6 +12,11 @@
 >
 > 红黑树优化：concurrentHashMap和HashMap都有红黑树的优化。HashTable没有
 
+3、StringBuffer和StringBuilder的区别
+
+> 1. 数据安全，StringBuffer是线程安全的，StringBuilder是不安全的没有被syschronized关键字修饰
+> 2. 性能上StringBuilder会更高一点
+
 
 
 
