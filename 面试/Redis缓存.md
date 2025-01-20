@@ -1,3 +1,7 @@
+
+
+[Redis源码详解](https://blog.csdn.net/whereisherofrom/category_9282660.html)
+
 # 1. 问题
 
 1、redis如何实现分布式锁
@@ -150,7 +154,7 @@ AOF和RDB
 
 # 2. 底层存储结构
 
-![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/uPic/2nWrry.png)
+
 
 ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/uPic/MyKFQC.png)
 
@@ -173,13 +177,63 @@ Set：数组、哈希表
 + 跳表：基于二分查找的思想，实现的一种类似树的结构。查询的时候每次都可以排除掉一半的不匹配信息
 + 整数数组：数组形式
 
+## 哈希表
+
+![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/uPic/2nWrry.png)
+
 ## 压缩列表
 
 列表的基础上进行压缩。然后增加一些偏移量的字段。适合存储数据量小的数据（hash、list、zset在数据量小的时候都是用这个结构）
 
 ![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/uPic/pyJupm.png)
 
-zltail：记录最后一个元素的偏移量。所以可以很快的找到第一个元素和最后一个元素。
+zlbytes ：4个字节，指定了压缩列表总共需要多少个字节（包含它本身的这四个字节）。
+zltail ： 4个字节，指定了列表首地址到尾结点 (entryN) 的偏移量，这样弹出尾结点就不需要遍历所有结点了。
+zllen：2个字节，指定了压缩列表中结点的数量。当有大于等于 2^16-1 个结点时，这个值为 2^16-1，并且需要遍历整个结点列表才能算出总共有多少个结点。
+
+
+
+其中压缩节点Entry包括以下几部分：
+
+1. prevlen：代表前一个结点的长度（集成了 prerawlen 和 prevrawlensize）；
+
+   当Entry长度小于254，则prevlen用1个字节
+
+   ![](https://i-blog.csdnimg.cn/blog_migrate/630cbd50ac73e4cfde3fa6dc31744802.png)
+
+   长度大于等于254，则需要分配5个字节，第一个字节设置成 254，后面四个字节代表实际长度
+
+   ![](https://i-blog.csdnimg.cn/blog_migrate/a1309b749a4c750f2dcfaa8e68b4b3e2.png)
+
+   
+
+2. encoding：代表当前结点的内存编码方式；
+
+3. entry-data 则是实际的结点内存数据。
+
+### 连锁更新
+
+原因
+
+1. 每个节点的prevlen表示前一个节点的长度
+2. 当节点长度小于254时，prevlen用1个字节表示。大于254，则用5个字节表示
+
+当e1~eN都是250～253的长度节点，则所有节点的prevlen都是1个字节就可以表示
+当在压缩列表头部新增一条数据的时候，当这个节点大于254则后一个节点的prevlen变成5个字节，则整个节点变成大于254个字节。以此类推，后续所有节点都需要在prevlen增加4个字节，这就是连锁更新
+
+则此时增加一个节点的时间复杂度事O(n^2)，会带来性能问题
+
+![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20241231165533.png)
+
+
+
+### 存储示例
+
+> 0, 12, 13, 127, 128, 32767, 32768, 8388607, 8388608, 2147483647, 2147483648, "Hello World"
+
+![](https://coderymy-image.oss-cn-beijing.aliyuncs.com/picgo/20241231170022.png)
+
+
 
 ## 跳表
 
@@ -1049,6 +1103,12 @@ EXPIRE 和 PERSIST 命令
 客户端 1 加锁的锁 key 默认生存时间才 30 秒，如果超过了 30 秒，客户端 1 还想一直持有这把锁，怎么办呢？
 
 **简单！**只要客户端 1 一旦加锁成功，就会启动一个 watch dog 看门狗，他是一个后台线程，会每隔 10 秒检查一下，如果客户端 1 还持有锁 key，那么就会不断的延长锁 key 的生存时间。
+
+
+
+
+
+
 
 # 问题
 
