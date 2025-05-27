@@ -1,3 +1,242 @@
+# 0. 数据库操作
+
+```
+1. 安装及启动mysql服务
+	mysqld --install
+	net start mysql
+2. 启动mysql
+	mysql -uroot -p
+3. 查看字符集
+	show variables like 'character%'
+4. 修改密码
+	set password for root@localhost=password("")
+5. 显示数据库
+	SHOW DATABASES;
+6. 显示数据库引擎，两种数据库引擎的差别
+	show engines
+	1. InnoDB，支持事务和外键
+	2. MyISAM，支持全文索引，早期版本比InnoDB更快
+7. 创建数据库，并指定字符集
+	CREATE DATABASE <数据库名>
+  DEFAULT CHARACTER SET utf8mb4 
+  COLLATE utf8mb4_unicode_ci;
+```
+
+# 1. 表的操作
+
+```
+1. 创建表
+	create table <表名> (
+		<字段名> <类型> [列级别约束] [默认值] [注释],
+		<字段名> <类型> [列级别约束] [默认值] [注释],
+		CONSTRAINT <约束名> FOREIGN KEY (A表的X字段名) REFERENCES B表(Y字段),
+		[表级别约束]
+	)[engine=引擎][default charset=字符集]
+	CREATE TABLE `testdemo1`(
+	`uid` INT PRIMARY KEY AUTO_INCREMENT,
+	`username` VARCHAR(20) NOT NULL ,
+	`password` VARCHAR(20) NOT NULL
+	);
+	
+2. 主键约束
+	1. Primary key
+	2. 如果是联合主键，可以在表的创建结尾部分使用以下方式创建
+		PRIMARY KEY(字段一，字段二)
+3. 外键约束（reference）
+	1. 在创建列的时候使用以下方式加上外键约束
+		字段名 类型 REFERENCES B表(X字段)
+	2. 在表创建尾部使用
+		CONSTRAINT <约束名> FOREIGN KEY (A表的X字段名) REFERENCES B表(Y字段)
+4. 复制表操作
+	CREATE TABLE testdemo2 AS SELECT * FROM testdemo1;
+5. 修改表
+	alter table XXX XXXXXXXXXXX
+6. 创建删除索引
+	create index 索引名 on 表名(字段名)
+	drop index 索引名;
+7. 
+
+
+
+```
+
+
+
+各种约束
+
+```
+1. 主键约束
+	PRIMARY KEY
+2. 自动递增	
+	auto_increment
+3. 外键约束	
+	REFERENCE，reference
+	指定对应的表的对应的列
+	还可以使用constraint指定
+```
+
+# 2. 增删改查
+
+## 2.1 增
+
+```
+insert into 表名(字段名1，字段名2，字段名3) values(值1，值2，值3);
+```
+
+## 2.2 删
+
+```
+delete from 表名 where 条件
+```
+
+## 2.3 改
+
+```
+update table set 列名1=值1，列名2=值2，where 条件
+```
+
+## 2.4 查
+
+>### 单表查询
+>
+>1. 排序
+>
+>   ```
+>   select * from 表名 order by 列名 DESC/ASC
+>   ```
+>
+>2. IN
+>
+>   ```
+>   select * from 表名 列名 in (值1，值2，值...)
+>   ```
+>
+>3. 模糊查询 
+>
+>   ```
+>   select * from 表名 列名 like 通配符
+>   ```
+>
+>   %. 表示匹配出现的任意次数的任意字符
+>
+>   _. 匹配一个字符
+>
+>4. 聚合函数，也就是在查询的信息中使用
+>
+>   >1. AUG()，平均值
+>   >
+>   >   ```
+>   >   select AUG(uid) from 表名
+>   >   ```
+>   >
+>   >2. COUNT()，某列数量
+>   >3. MAX
+>   >4. ()，某列最大值
+>   >5. MIN()，某列最小值
+>   >6. SUM()，某列的和
+> 
+> 5. 分组查询
+>
+>  >GROUP BY，表示分成什么组
+>
+> 6. HAVING子句
+>
+>用于指定组所对应的条件，也就是可以是聚合函数。这就是和where的唯一区别，都是作为一种条件判断使用的
+>
+>   7. LIMIT子句
+>
+>表示分页查询，指定
+
+>### 关联表查询
+>
+>1. 基本使用
+>
+>```
+>select * from 表1,表2 where 主表.主键=从表.外键 and 其它过滤条件 
+>```
+>
+>2. 内连接
+>
+>```
+>SELECT 主表.列1, ..., 从表.列1, ... FROM 主表 INNER JOIN 从表 ON 主表.主键 = 从表.外键 WHERE 过滤条件;
+>也就是在以前的基础上，在两个表中间加上了"inner join" 后面的链接条件加上"on"
+>```
+>
+>3. 左外连接
+>
+>```
+>SELECT * FROM ... 
+>  LEFT JOIN ... ON ... = ...
+>  WHERE ...;
+>
+>和自连接的区别在于使用"left join"
+>```
+>
+>
+>
+>4. 右外连接
+>
+>```
+>SELECT * FROM ... 
+>  RIGHT JOIN ... ON ... = ...
+>  WHERE ...;
+>
+>区别在于使用 "right join"
+>```
+>
+>5. 自连接
+>
+>关键是使用别名
+
+# 3. 事务
+
+## 3.1 事务的概念
+
+也就是一系列sql语句的最小的逻辑单元
+
+比如不允许一部分有成功一部分失败的情况存在
+
+<font color="yellow">一个事务以 `START TRANSACTION;` 开始，以 `COMMIT;` 或 `ROLLBACK;` 结束。</font>
+
+## 3.2 事务的回滚和提交
+
+### 3.2.1 回滚
+
+```
+start transaction;
+sql语句;
+sql语句;
+遇到错误可以使用`rollback;`
+```
+
+### 3.2.2 提交
+
+```
+START TRANSACTION;
+INSERT INTO dept VALUES(50, 'SOFTEWARE', 'BEI JING');
+COMMIT;
+```
+
+当提交之后，这个事务就完成了，就无法使用回滚了
+
+## 3.3 事务的四个基本特性
+
+1. 原子性
+2. 一致性
+3. 隔离性
+4. 持久性
+
+# 4. 视图
+
+## 4.1 什么是视图
+
+虚拟表
+
+
+
+# 基础命令
+
+```
 [mysql操作](https://mp.weixin.qq.com/s/GiuN8SZbIU0SR2SOPAKZvQ)
 
 
@@ -154,8 +393,9 @@ SET NAMES GBK;    -- 相当于完成以上三个设置
     collate 校对集编码        设置校对集编码
 
 /* 数据类型（列类型） */ ------------------
+
 1. 数值类型
--- a. 整型 ----------
+   -- a. 整型 ----------
     类型            字节        范围（有符号位）
     tinyint        1字节    -128 ~ 127        无符号位：0 ~ 255
     smallint    2字节    -32768 ~ 32767
@@ -164,9 +404,10 @@ SET NAMES GBK;    -- 相当于完成以上三个设置
     bigint        8字节
 
     int(M)    M表示总位数
+
     - 默认存在符号位，unsigned 属性修改
     - 显示宽度，如果某个数不够定义字段时设置的位数，则前面以0补填，zerofill 属性修改
-        例：int(5)    插入一个数'123'，补填后为'00123'
+      例：int(5)    插入一个数'123'，补填后为'00123'
     - 在满足要求的情况下，越小越好。
     - 1表示bool值真，0表示bool值假。MySQL没有布尔类型，通过整型0和1表示。常用tinyint(1)表示布尔型。
 
@@ -191,7 +432,7 @@ SET NAMES GBK;    -- 相当于完成以上三个设置
     将浮点数转换为字符串来保存，每9位数字保存为4个字节。
 
 2. 字符串类型
--- a. char, varchar ----------
+   -- a. char, varchar ----------
     char    定长字符串，速度快，但浪费空间
     varchar    变长字符串，速度慢，但节省空间
     M表示能存储的最大长度，此长度是字符数，非字节数。
@@ -218,13 +459,13 @@ SET NAMES GBK;    -- 相当于完成以上三个设置
     char, varchar, text 对应 binary, varbinary, blob.
 
 3. 日期时间类型
-    一般用整型保存时间戳，因为PHP可以很方便的将时间戳进行格式化。
-    datetime    8字节    日期及时间        1000-01-01 00:00:00 到 9999-12-31 23:59:59
-    date        3字节    日期            1000-01-01 到 9999-12-31
-    timestamp    4字节    时间戳        19700101000000 到 2038-01-19 03:14:07
-    time        3字节    时间            -838:59:59 到 838:59:59
-    year        1字节    年份            1901 - 2155
-    
+   一般用整型保存时间戳，因为PHP可以很方便的将时间戳进行格式化。
+   datetime    8字节    日期及时间        1000-01-01 00:00:00 到 9999-12-31 23:59:59
+   date        3字节    日期            1000-01-01 到 9999-12-31
+   timestamp    4字节    时间戳        19700101000000 到 2038-01-19 03:14:07
+   time        3字节    时间            -838:59:59 到 838:59:59
+   year        1字节    年份            1901 - 2155
+
 datetime    “YYYY-MM-DD hh:mm:ss”
 timestamp    “YY-MM-DD hh:mm:ss”
             “YYYYMMDDhhmmss”
@@ -246,8 +487,8 @@ year        “YYYY”
             YY
 
 4. 枚举和集合
--- 枚举(enum) ----------
-enum(val1, val2, val3...)
+   -- 枚举(enum) ----------
+   enum(val1, val2, val3...)
     在已知的值中进行单选。最大数量为65535.
     枚举值在保存时，以2个字节的整型(smallint)保存。每个枚举值，按保存的位置顺序，从1开始逐一递增。
     表现为字符串类型，存储却是整型。
@@ -263,85 +504,89 @@ set(val1, val2, val3...)
 
 /* 选择类型 */
 -- PHP角度
+
 1. 功能满足
 2. 存储空间尽量小，处理效率更高
 3. 考虑兼容问题
 
 -- IP存储 ----------
+
 1. 只需存储，可用字符串
 2. 如果需计算，查找等，可存储为4个字节的无符号int，即unsigned
-    1) PHP函数转换
-        ip2long可转换为整型，但会出现携带符号问题。需格式化为无符号的整型。
-        利用sprintf函数格式化字符串
-        sprintf("%u", ip2long('192.168.3.134'));
-        然后用long2ip将整型转回IP字符串
-    2) MySQL函数转换(无符号整型，UNSIGNED)
-        INET_ATON('127.0.0.1') 将IP转为整型
-        INET_NTOA(2130706433) 将整型转为IP
-        
+   1) PHP函数转换
+      ip2long可转换为整型，但会出现携带符号问题。需格式化为无符号的整型。
+      利用sprintf函数格式化字符串
+      sprintf("%u", ip2long('192.168.3.134'));
+      然后用long2ip将整型转回IP字符串
+   2) MySQL函数转换(无符号整型，UNSIGNED)
+      INET_ATON('127.0.0.1') 将IP转为整型
+      INET_NTOA(2130706433) 将整型转为IP
 
 
 
 /* 列属性（列约束） */ ------------------
+
 1. 主键
-    - 能唯一标识记录的字段，可以作为主键。
-    - 一个表只能有一个主键。
-    - 主键具有唯一性。
-    - 声明字段时，用 primary key 标识。
-        也可以在字段列表之后声明
-            例：create table tab ( id int, stu varchar(10), primary key (id));
-    - 主键字段的值不能为null。
-    - 主键可以由多个字段共同组成。此时需要在字段列表后声明的方法。
-        例：create table tab ( id int, stu varchar(10), age int, primary key (stu, age));
+
+   - 能唯一标识记录的字段，可以作为主键。
+   - 一个表只能有一个主键。
+   - 主键具有唯一性。
+   - 声明字段时，用 primary key 标识。
+     也可以在字段列表之后声明
+         例：create table tab ( id int, stu varchar(10), primary key (id));
+   - 主键字段的值不能为null。
+   - 主键可以由多个字段共同组成。此时需要在字段列表后声明的方法。
+     例：create table tab ( id int, stu varchar(10), age int, primary key (stu, age));
 
 2. unique 唯一索引（唯一约束）
-    使得某字段的值也不能重复。
-    
+   使得某字段的值也不能重复。
+
 3. null 约束
-    null不是数据类型，是列的一个属性。
-    表示当前列是否可以为null，表示什么都没有。
-    null, 允许为空。默认。
-    not null, 不允许为空。
-    insert into tab values (null, 'val');
-        -- 此时表示将第一个字段的值设为null, 取决于该字段是否允许为null
-    
+   null不是数据类型，是列的一个属性。
+   表示当前列是否可以为null，表示什么都没有。
+   null, 允许为空。默认。
+   not null, 不允许为空。
+   insert into tab values (null, 'val');
+       -- 此时表示将第一个字段的值设为null, 取决于该字段是否允许为null
+
 4. default 默认值属性
-    当前字段的默认值。
-    insert into tab values (default, 'val');    -- 此时表示强制使用默认值。
-    create table tab ( add_time timestamp default current_timestamp );
-        -- 表示将当前时间的时间戳设为默认值。
-        current_date, current_time
+   当前字段的默认值。
+   insert into tab values (default, 'val');    -- 此时表示强制使用默认值。
+   create table tab ( add_time timestamp default current_timestamp );
+       -- 表示将当前时间的时间戳设为默认值。
+       current_date, current_time
 
 5. auto_increment 自动增长约束
-    自动增长必须为索引（主键或unique）
-    只能存在一个字段为自动增长。
-    默认为1开始自动增长。可以通过表属性 auto_increment = x进行设置，或 alter table tbl auto_increment = x;
+   自动增长必须为索引（主键或unique）
+   只能存在一个字段为自动增长。
+   默认为1开始自动增长。可以通过表属性 auto_increment = x进行设置，或 alter table tbl auto_increment = x;
 
 6. comment 注释
-    例：create table tab ( id int ) comment '注释内容';
+   例：create table tab ( id int ) comment '注释内容';
 
 7. foreign key 外键约束
-    用于限制主表与从表数据完整性。
-    alter table t1 add constraint `t1_t2_fk` foreign key (t1_id) references t2(id);
-        -- 将表t1的t1_id外键关联到表t2的id字段。
-        -- 每个外键都有一个名字，可以通过 constraint 指定
+   用于限制主表与从表数据完整性。
+   alter table t1 add constraint `t1_t2_fk` foreign key (t1_id) references t2(id);
+       -- 将表t1的t1_id外键关联到表t2的id字段。
+       -- 每个外键都有一个名字，可以通过 constraint 指定
 
-    存在外键的表，称之为从表（子表），外键指向的表，称之为主表（父表）。
+   存在外键的表，称之为从表（子表），外键指向的表，称之为主表（父表）。
 
-    作用：保持数据一致性，完整性，主要目的是控制存储在外键表（从表）中的数据。
+   作用：保持数据一致性，完整性，主要目的是控制存储在外键表（从表）中的数据。
 
-    MySQL中，可以对InnoDB引擎使用外键约束：
-    语法：
-    foreign key (外键字段） references 主表名 (关联字段) [主表记录删除时的动作] [主表记录更新时的动作]
-    此时需要检测一个从表的外键需要约束为主表的已存在的值。外键在没有关联的情况下，可以设置为null.前提是该外键列，没有not null。
+   MySQL中，可以对InnoDB引擎使用外键约束：
+   语法：
+   foreign key (外键字段） references 主表名 (关联字段) [主表记录删除时的动作] [主表记录更新时的动作]
+   此时需要检测一个从表的外键需要约束为主表的已存在的值。外键在没有关联的情况下，可以设置为null.前提是该外键列，没有not null。
 
-    可以不指定主表记录更改或更新时的动作，那么此时主表的操作被拒绝。
-    如果指定了 on update 或 on delete：在删除或更新时，有如下几个操作可以选择：
-    1. cascade，级联操作。主表数据被更新（主键值更新），从表也被更新（外键值更新）。主表记录被删除，从表相关记录也被删除。
-    2. set null，设置为null。主表数据被更新（主键值更新），从表的外键被设置为null。主表记录被删除，从表相关记录外键被设置成null。但注意，要求该外键列，没有not null属性约束。
-    3. restrict，拒绝父表删除和更新。
+   可以不指定主表记录更改或更新时的动作，那么此时主表的操作被拒绝。
+   如果指定了 on update 或 on delete：在删除或更新时，有如下几个操作可以选择：
 
-    注意，外键只被InnoDB存储引擎所支持。其他引擎是不支持的。
+   1. cascade，级联操作。主表数据被更新（主键值更新），从表也被更新（外键值更新）。主表记录被删除，从表相关记录也被删除。
+   2. set null，设置为null。主表数据被更新（主键值更新），从表的外键被设置为null。主表记录被删除，从表相关记录外键被设置成null。但注意，要求该外键列，没有not null属性约束。
+   3. restrict，拒绝父表删除和更新。
+
+   注意，外键只被InnoDB存储引擎所支持。其他引擎是不支持的。
 
 
 /* 建表规范 */ ------------------
@@ -396,6 +641,7 @@ d. group by 子句, 分组子句
     group by 字段/别名 [排序方式]
     分组后会进行排序。升序：ASC，降序：DESC
     
+
     以下[合计函数]需配合 group by 使用：
     count 返回不同的非NULL值数目    count(*)、count(字段)
     sum 求和
@@ -482,6 +728,7 @@ h. distinct, all 选项
     -- 交叉连接 cross join
         即，没有条件的内连接。
         select * from tb1 cross join tb2;
+
 -- 外连接(outer join)
     - 如果数据不存在，也会出现在连接结果中。
     -- 左外连接 left join
@@ -568,22 +815,24 @@ TRUNCATE [TABLE] tbl_name
 利用 mysqldump 指令完成。
 
 -- 导出
+
 1. 导出一张表
-　　mysqldump -u用户名 -p密码 库名 表名 > 文件名(D:/a.sql)
+   mysqldump -u用户名 -p密码 库名 表名 > 文件名(D:/a.sql)
 2. 导出多张表
-　　mysqldump -u用户名 -p密码 库名 表1 表2 表3 > 文件名(D:/a.sql)
+   mysqldump -u用户名 -p密码 库名 表1 表2 表3 > 文件名(D:/a.sql)
 3. 导出所有表
-　　mysqldump -u用户名 -p密码 库名 > 文件名(D:/a.sql)
+   mysqldump -u用户名 -p密码 库名 > 文件名(D:/a.sql)
 4. 导出一个库 
-　　mysqldump -u用户名 -p密码 -B 库名 > 文件名(D:/a.sql)
+   mysqldump -u用户名 -p密码 -B 库名 > 文件名(D:/a.sql)
 
 可以-w携带备份条件
 
 -- 导入
+
 1. 在登录mysql的情况下：
-　　source  备份文件
+   source  备份文件
 2. 在不登录的情况下
-　　mysql -u用户名 -p密码 库名 < 备份文件
+   mysql -u用户名 -p密码 库名 < 备份文件
 
 
 /* 视图 */ ------------------
@@ -741,11 +990,12 @@ begin
 end
 
 -- 特殊的执行
+
 1. 只要添加记录，就会触发程序。
 2. Insert into on duplicate key update 语法会触发：
-    如果没有重复记录，会触发 before insert, after insert;
-    如果有重复记录并更新，会触发 before insert, before update, after update;
-    如果有重复记录但是没有发生更新，则触发 before insert, before update
+   如果没有重复记录，会触发 before insert, after insert;
+   如果有重复记录并更新，会触发 before insert, before update, after update;
+   如果有重复记录但是没有发生更新，则触发 before insert, before update
 3. Replace 语法 如果有记录，则执行 before insert, before delete, after delete, after insert
 
 
@@ -807,10 +1057,10 @@ end while [end_label];
 
 - 如果需要在循环内提前终止 while循环，则需要使用标签；标签需要成对出现。
 
-    -- 退出循环
-        退出整个循环 leave
-        退出当前循环 iterate
-        通过退出的标签决定退出哪个循环
+  -- 退出循环
+      退出整个循环 leave
+      退出当前循环 iterate
+      通过退出的标签决定退出哪个循环
 
 
 --// 内置函数 ----------
@@ -918,6 +1168,7 @@ INOUT，表示混合型
 存储过程是一段可执行性代码的集合。相比函数，更偏向于业务逻辑。
 调用：CALL 过程名
 -- 注意
+
 - 没有返回值。
 - 只能单独调用，不可夹杂在其他语句中
 
@@ -1016,16 +1267,20 @@ OPTIMIZE [LOCAL | NO_WRITE_TO_BINLOG] TABLE tbl_name [, tbl_name] ...
 
 
 /* 杂项 */ ------------------
+
 1. 可用反引号（`）为标识符（库名、表名、字段名、索引、别名）包裹，以避免与关键字重名！中文也可以作为标识符！
 2. 每个库目录存在一个保存当前数据库的选项文件db.opt。
 3. 注释：
-    单行注释 # 注释内容
-    多行注释 /* 注释内容 */
-    单行注释 -- 注释内容        (标准SQL注释风格，要求双破折号后加一空格符（空格、TAB、换行等）)
+   单行注释 # 注释内容
+   多行注释 /* 注释内容 */
+   单行注释 -- 注释内容        (标准SQL注释风格，要求双破折号后加一空格符（空格、TAB、换行等）)
 4. 模式通配符：
-    _    任意单个字符
-    %    任意多个字符，甚至包括零字符
-    单引号需要进行转义 \'
+   _    任意单个字符
+   %    任意多个字符，甚至包括零字符
+   单引号需要进行转义 \'
 5. CMD命令行内的语句结束符可以为 ";", "\G", "\g"，仅影响显示结果。其他地方还是用分号结束。delimiter 可修改当前对话的语句结束符。
 6. SQL对大小写不敏感
 7. 清除已有语句：\c
+```
+
+8. 
