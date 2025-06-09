@@ -4,20 +4,6 @@
 >
 > python aishell.py --filepath ./test/data_aishell.tgz
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # 其他语音模型
 
 SenseVoice
