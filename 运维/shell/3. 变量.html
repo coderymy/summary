@@ -1,0 +1,74 @@
+<html>
+<head>
+  <title>Evernote Export</title>
+  <basefont face="微软雅黑" size="2" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="exporter-version" content="YXBJ Windows/606746 (zh-CN, DDL); Windows/10.0.0 (Win64); EDAMVersion=V2;"/>
+  <meta name="content-class" content="yinxiang.markdown"/>
+  <style>
+    body, td {
+      font-family: 微软雅黑;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<a name="589"/>
+
+<div><span><div style="font-size: 14px; margin: 0; padding: 0; width: 100%;"><h1 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 41px; border-bottom: 3px double #999; color: #000; margin-top: 14px;">3.1 定义变量的规范</h1>
+<pre style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; margin: 2px 0 8px; background-color: #f5f7f8;"><code style="display: block; overflow-x: auto; background: #1e1e1e; line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; letter-spacing: -.3px; padding: 18px; color: #f4f4f4; white-space: pre-wrap;">name=ymy
+name=<span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">&quot;ymy&quot;</span>
+name=<span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'ymy'</span>
+</code></pre>
+<ul style="line-height: 160%; box-sizing: content-box; display: block; list-style-type: disc; padding-left: 30px; margin: 6px 0 10px; color: #333;">
+<li style="line-height: 160%; box-sizing: content-box; position: relative;">&quot;&quot;会先解析字符串中是否有引用的变量,''会直接将其中的字符串输出出来</li>
+<li style="line-height: 160%; box-sizing: content-box; position: relative;">=两边不能有空格</li>
+<li style="line-height: 160%; box-sizing: content-box; position: relative;">如果变量值中没有任何空白符(空格,缩进)等,可以不使用引号引起来</li>
+</ul>
+<h2 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 34px; border-bottom: 1px solid #dbdbdb; color: #333;">3.1.1 修饰符</h2>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;"><code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">readonly</code>:只读变量<br/>
+使用<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">readonly</code>关键字修饰的变量是只读变量,后续流程中不允许修改</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;"><code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">unset</code>:删除变量<br/>
+使用<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">unset</code>关键字修饰的变量标识该变量被删除,后续引用不会生效</p>
+<h1 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 41px; border-bottom: 3px double #999; color: #000;">3.2 使用变量</h1>
+<h2 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 34px; border-bottom: 1px solid #dbdbdb; color: #333;">3.2.1 调用变量</h2>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">在变量名前面加上<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">$</code>进行调用即可,如果不是很好区分边界值,则可以在<code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">${}</code>变量两边加上{}进行区分</p>
+<pre style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; margin: 2px 0 8px; background-color: #f5f7f8;"><code style="display: block; overflow-x: auto; background: #1e1e1e; line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; letter-spacing: -.3px; padding: 18px; color: #f4f4f4; white-space: pre-wrap;">skill=&quot;Java&quot;
+echo “I like ”$skill
+echo &quot;I am good at ${skill}Script&quot;
+</code></pre>
+<h2 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 34px; border-bottom: 1px solid #dbdbdb; color: #333;">3.2.2 字符串操作</h2>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">拼接字符串</p>
+</blockquote>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">直接使用${}包裹起来</p>
+<pre style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; margin: 2px 0 8px; background-color: #f5f7f8;"><code style="display: block; overflow-x: auto; background: #1e1e1e; line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; letter-spacing: -.3px; padding: 18px; color: #f4f4f4; white-space: pre-wrap;">name=<span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">&quot;jetty&quot;</span>
+<span style="color: #4ec9b0; line-height: 160%; box-sizing: content-box;">echo</span> <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">&quot;my name is <span style="color: #bd63c5; line-height: 160%; box-sizing: content-box;">${name}</span>!&quot;</span>
+<span style="color: #4ec9b0; line-height: 160%; box-sizing: content-box;">echo</span> <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">&quot;my name is &quot;</span><span style="color: #bd63c5; line-height: 160%; box-sizing: content-box;">$name</span><span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">&quot;!&quot;</span>
+</code></pre>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">获取字符串长度</p>
+</blockquote>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">使用${#}</p>
+<pre style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; margin: 2px 0 8px; background-color: #f5f7f8;"><code style="display: block; overflow-x: auto; background: #1e1e1e; line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; letter-spacing: -.3px; padding: 18px; color: #f4f4f4; white-space: pre-wrap;">name=<span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">&quot;jetty&quot;</span>
+<span style="color: #4ec9b0; line-height: 160%; box-sizing: content-box;">echo</span> <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">&quot;my name size is <span style="color: #bd63c5; line-height: 160%; box-sizing: content-box;">${#jetty}</span>&quot;</span>
+
+<span style="color: #4ec9b0; line-height: 160%; box-sizing: content-box;">print</span> 4
+</code></pre>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">提取子字符串</p>
+</blockquote>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">使用${string:1:4}</p>
+<pre style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; margin: 2px 0 8px; background-color: #f5f7f8;"><code style="display: block; overflow-x: auto; background: #1e1e1e; line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; letter-spacing: -.3px; padding: 18px; color: #f4f4f4; white-space: pre-wrap;">
+name=<span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">&quot;jetty&quot;</span>
+<span style="color: #4ec9b0; line-height: 160%; box-sizing: content-box;">echo</span> <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">&quot;my name is <span style="color: #bd63c5; line-height: 160%; box-sizing: content-box;">${string:1:4}</span>&quot;</span>
+
+<span style="color: #4ec9b0; line-height: 160%; box-sizing: content-box;">print</span> etty
+</code></pre>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">查找子字符串</p>
+</blockquote>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">使用 <code style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; color: #c1788b; padding: 4px 4px 2px 0; letter-spacing: -.3px;">expr index &quot;$string&quot; io</code></p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">在string变量中找io字符串出现的位置.找不到则获取其中一个字符的位置</p>
+</div><center style="display:none !important;visibility:collapse !important;height:0 !important;white-space:nowrap;width:100%;overflow:hidden">%23%203.1%20%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E7%9A%84%E8%A7%84%E8%8C%83%0A%0A%60%60%60bash%0Aname%3Dymy%0Aname%3D%22ymy%22%0Aname%3D'ymy'%0A%60%60%60%0A%2B%20%22%22%E4%BC%9A%E5%85%88%E8%A7%A3%E6%9E%90%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%98%AF%E5%90%A6%E6%9C%89%E5%BC%95%E7%94%A8%E7%9A%84%E5%8F%98%E9%87%8F%2C''%E4%BC%9A%E7%9B%B4%E6%8E%A5%E5%B0%86%E5%85%B6%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BE%93%E5%87%BA%E5%87%BA%E6%9D%A5%0A%2B%20%3D%E4%B8%A4%E8%BE%B9%E4%B8%8D%E8%83%BD%E6%9C%89%E7%A9%BA%E6%A0%BC%0A%2B%20%E5%A6%82%E6%9E%9C%E5%8F%98%E9%87%8F%E5%80%BC%E4%B8%AD%E6%B2%A1%E6%9C%89%E4%BB%BB%E4%BD%95%E7%A9%BA%E7%99%BD%E7%AC%A6(%E7%A9%BA%E6%A0%BC%2C%E7%BC%A9%E8%BF%9B)%E7%AD%89%2C%E5%8F%AF%E4%BB%A5%E4%B8%8D%E4%BD%BF%E7%94%A8%E5%BC%95%E5%8F%B7%E5%BC%95%E8%B5%B7%E6%9D%A5%0A%0A%23%23%203.1.1%20%E4%BF%AE%E9%A5%B0%E7%AC%A6%0A%0A%60readonly%60%3A%E5%8F%AA%E8%AF%BB%E5%8F%98%E9%87%8F%0A%E4%BD%BF%E7%94%A8%60readonly%60%E5%85%B3%E9%94%AE%E5%AD%97%E4%BF%AE%E9%A5%B0%E7%9A%84%E5%8F%98%E9%87%8F%E6%98%AF%E5%8F%AA%E8%AF%BB%E5%8F%98%E9%87%8F%2C%E5%90%8E%E7%BB%AD%E6%B5%81%E7%A8%8B%E4%B8%AD%E4%B8%8D%E5%85%81%E8%AE%B8%E4%BF%AE%E6%94%B9%0A%0A%60unset%60%3A%E5%88%A0%E9%99%A4%E5%8F%98%E9%87%8F%0A%E4%BD%BF%E7%94%A8%60unset%60%E5%85%B3%E9%94%AE%E5%AD%97%E4%BF%AE%E9%A5%B0%E7%9A%84%E5%8F%98%E9%87%8F%E6%A0%87%E8%AF%86%E8%AF%A5%E5%8F%98%E9%87%8F%E8%A2%AB%E5%88%A0%E9%99%A4%2C%E5%90%8E%E7%BB%AD%E5%BC%95%E7%94%A8%E4%B8%8D%E4%BC%9A%E7%94%9F%E6%95%88%0A%0A%0A%23%203.2%20%E4%BD%BF%E7%94%A8%E5%8F%98%E9%87%8F%0A%0A%23%23%203.2.1%20%E8%B0%83%E7%94%A8%E5%8F%98%E9%87%8F%0A%E5%9C%A8%E5%8F%98%E9%87%8F%E5%90%8D%E5%89%8D%E9%9D%A2%E5%8A%A0%E4%B8%8A%60%24%60%E8%BF%9B%E8%A1%8C%E8%B0%83%E7%94%A8%E5%8D%B3%E5%8F%AF%2C%E5%A6%82%E6%9E%9C%E4%B8%8D%E6%98%AF%E5%BE%88%E5%A5%BD%E5%8C%BA%E5%88%86%E8%BE%B9%E7%95%8C%E5%80%BC%2C%E5%88%99%E5%8F%AF%E4%BB%A5%E5%9C%A8%60%24%7B%7D%60%E5%8F%98%E9%87%8F%E4%B8%A4%E8%BE%B9%E5%8A%A0%E4%B8%8A%7B%7D%E8%BF%9B%E8%A1%8C%E5%8C%BA%E5%88%86%0A%0A%60%60%60%0Askill%3D%22Java%22%0Aecho%20%E2%80%9CI%20like%20%E2%80%9D%24skill%0Aecho%20%22I%20am%20good%20at%20%24%7Bskill%7DScript%22%0A%60%60%60%0A%0A%23%23%203.2.2%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C%0A%0A%3E%20%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%0A%0A%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8%24%7B%7D%E5%8C%85%E8%A3%B9%E8%B5%B7%E6%9D%A5%0A%60%60%60bash%0Aname%3D%22jetty%22%0Aecho%20%22my%20name%20is%20%24%7Bname%7D!%22%0Aecho%20%22my%20name%20is%20%22%24name%22!%22%0A%60%60%60%0A%0A%3E%20%E8%8E%B7%E5%8F%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6%0A%0A%E4%BD%BF%E7%94%A8%24%7B%23%7D%0A%60%60%60bash%0Aname%3D%22jetty%22%0Aecho%20%22my%20name%20size%20is%20%24%7B%23jetty%7D%22%0A%0Aprint%204%0A%60%60%60%0A%0A%0A%3E%20%E6%8F%90%E5%8F%96%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2%0A%0A%E4%BD%BF%E7%94%A8%24%7Bstring%3A1%3A4%7D%0A%60%60%60bash%0A%0Aname%3D%22jetty%22%0Aecho%20%22my%20name%20is%20%24%7Bstring%3A1%3A4%7D%22%0A%0Aprint%20etty%0A%60%60%60%0A%0A%3E%20%E6%9F%A5%E6%89%BE%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2%0A%0A%E4%BD%BF%E7%94%A8%20%60expr%20index%20%22%24string%22%20io%60%0A%0A%E5%9C%A8string%E5%8F%98%E9%87%8F%E4%B8%AD%E6%89%BEio%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BA%E7%8E%B0%E7%9A%84%E4%BD%8D%E7%BD%AE.%E6%89%BE%E4%B8%8D%E5%88%B0%E5%88%99%E8%8E%B7%E5%8F%96%E5%85%B6%E4%B8%AD%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E7%9A%84%E4%BD%8D%E7%BD%AE%0A%0A%0A%0A%0A</center></span>
+</div></body></html> 
